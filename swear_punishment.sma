@@ -28,9 +28,9 @@
 
 #pragma semicolon 1
 
-static plugin_version[] = "0.2b";
+static plugin_version[] = "0.3b";
 static cvar_realslap, cvar_death, cvar_notify, cvar_slaphp, cvar_slapap;
-static cvar_slow, cvar_slowspeed, cvar_burry;
+static cvar_slow, cvar_slowspeed, cvar_burry, Float:cvar_burry_y;
 new g_swearsNames[MAX_WORDS][32];
 new g_swearsNum;
 
@@ -48,6 +48,7 @@ public plugin_init()
 	register_cvar("amx_sp_slaphp", "30");
 	register_cvar("amx_sp_slapap", "30");
 	register_cvar("amx_sp_burry", "1");
+	register_cvar("amx_sp_burry_y", "30.0");
 	register_cvar("amx_sp_slow", "1");
 	register_cvar("amx_sp_slowspeed", "100");
 	cvar_realslap = get_cvar_pointer("amx_sp_realslap");
@@ -56,6 +57,7 @@ public plugin_init()
 	cvar_slaphp = get_cvar_pointer("amx_sp_slaphp");
 	cvar_slapap = get_cvar_pointer("amx_sp_slapap");
 	cvar_burry = get_cvar_pointer("amx_sp_burry");
+	cvar_burry_y = get_cvar_float("amx_sp_burry_y");
 	cvar_slow = get_cvar_pointer("amx_sp_slow");
 	cvar_slowspeed = get_cvar_pointer("amx_sp_slowspeed");
 	readList();
@@ -185,7 +187,7 @@ public swearcheck(id)
 				
 				new Float:origin[3];
 				pev(id, pev_origin, origin);
-				origin[2] -= 30.0;
+				origin[2] -= cvar_burry_y;
 				set_pev(id, pev_origin, origin);
 				
 				if(get_pcvar_num(cvar_notify))
